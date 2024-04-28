@@ -1,0 +1,71 @@
+class Set:
+    def __init__(self, elements):
+        self.elements = set(elements)
+
+    def is_member(self, element):
+        return element in self.elements
+
+    def powerset(self):
+        from itertools import combinations
+
+        power_set = [[]]
+        for element in self.elements:
+            new_sets = [subset + [element] for subset in power_set]
+            power_set.extend(new_sets)
+        return power_set
+
+    def subset(self, other_set):
+        return self.elements.issubset(other_set.elements)
+
+    def union(self, other_set):
+        return Set(self.elements.union(other_set.elements))
+
+    def intersection(self, other_set):
+        return Set(self.elements.intersection(other_set.elements))
+
+    def complement(self, universal_set):
+        return Set(universal_set.elements.difference(self.elements))
+
+    def set_difference(self, other_set):
+        return Set(self.elements.difference(other_set.elements))
+
+    def symmetric_difference(self, other_set):
+        return Set(self.elements.symmetric_difference(other_set.elements))
+
+    def cartesian_product(self, other_set):
+        cartesian_product = [(x, y) for x in self.elements for y in other_set.elements]
+        return cartesian_product
+
+
+# Example usage:
+set1 = Set([1, 2, 3])
+set2 = Set([2, 3, 4])
+
+# is member
+print(set1.is_member(2))  # True
+print(set1.is_member(5))  # False
+
+# powerset
+print(set1.powerset())
+
+# subset
+print(set1.subset(set2))  # False
+
+# union
+print(set1.union(set2).elements)  # {1, 2, 3, 4}
+
+# intersection
+print(set1.intersection(set2).elements)  # {2, 3}
+
+# complement
+universal_set = Set([1, 2, 3, 4, 5])
+print(set1.complement(universal_set).elements)  # {4, 5}
+
+# set difference
+print(set1.set_difference(set2).elements)  # {1}
+
+# symmetric difference
+print(set1.symmetric_difference(set2).elements)  # {1, 4}
+
+# cartesian product
+print(set1.cartesian_product(set2))  # [(1, 2), (1, 3), (1, 4), (2, 2), (2, 3),
